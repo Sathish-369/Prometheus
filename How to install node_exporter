@@ -1,0 +1,46 @@
+How to carry out the work
+1. Open Slave node and navigate to the /opt folder.
+
+2. Visit the following website(https://prometheus.io/download/) to get the most recent version of node_exporter, then write the commend as follows
+wget https://github.com/prometheus/node_exporter/releases/download/v1.6.0/node_exporter-1.6.0.linux-amd64.tar.gz
+
+
+3. But keep in mind that on Slave, you must either customize your port or enable all TCP ports 0 to 65535.
+	In AWS enable all tcp on security group.
+
+4. After you've done the wget command, node_exporter will install on your slave machine, to proceed further please unzip it.
+
+tar -xzvf "file name" 
+
+5. Once it has been unzipped, run the commend bellow. 
+
+./node_exporter
+
+6. Then, to test node_exporter UI in your browser. 
+
+hostname or ip :9100
+
+7. Now exit the node_exporter and execute follwoing steps.
+
+  
+8. Now we copy the node_exporter from the opt to the bin folder.
+cp -r ./usr/local/bin/node_exporter
+
+9. Now configure node_exporter as a background service since if you leave it above, you won't be able to perform any other tasks on that node because as you exit node_exporter, it will stop functioning. 
+
+vi /etc/systemd/system/promethus.service
+	
+[Unit]	
+Description=Node Exporter
+After=network.target
+ 
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+ 
+[Install]
+WantedBy=multi-user.target
+
+#save and exit
+
+10 Run the commened systemctl start node_exporter
