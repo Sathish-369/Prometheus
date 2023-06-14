@@ -7,7 +7,7 @@ wget https://github.com/prometheus/prometheus/releases/download/v2.45.0-rc.0/pro
 3. But keep in mind that on Prometheus, you must either customize your port or enable all TCP ports 0 to 65535.
 	In AWS enable all tcp on security group.
 
-4. After you've done the wget command, Prometheus will install on your machineto proceed further please unzip it.
+4. After you've done the wget command, Prometheus will install on your machine, to proceed further please unzip it.
 
 tar -xzvf "file name" 
 
@@ -43,13 +43,13 @@ vi /etc/systemd/system/promethus.service
 11. We will now add the slave node to the Prometheus configuration.
 12. Please continue to work from the same directory where we saved Prometheus, open the "prometheus.yml" file in the "vi" editor, and add the slave node details without altering the text file's alignment.
 
-    Job_name: "prometheus" #master
+        Job_name: "prometheus" #master
 	static_config:
 		- target: ["localhost:9090"]
 	
-	JOb_nmae: "Slave" #node exporter 
+	Job_nmae: "Slave" #node exporter 
 	static_config:
-		- targer: [ip of slave:9100]
+		- targets: [ip of slave:9100]
 # save and exit
 
 13. In the master run the commend  "servie promethues start" to start the promethus.
