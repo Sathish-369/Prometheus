@@ -1,0 +1,56 @@
+How to carry out the work
+1. Open Master node and navigate to the /opt folder.
+2. Visit the following website(https://prometheus.io/download/) to get the most recent version of Prometheus, then write the commend as follows
+wget https://github.com/prometheus/prometheus/releases/download/v2.45.0-rc.0/prometheus-2.45.0-rc.0.linux-amd64.tar.gz
+
+
+3. But keep in mind that on Prometheus, you must either customize your port or enable all TCP ports 0 to 65535.
+	In AWS enable all tcp on security group.
+
+4. After you've done the wget command, Prometheus will install on your machineto proceed further please unzip it.
+
+tar -xzvf "file name" 
+
+5. Once it has been unzipped, run the commend bellow. 
+
+./prometheus
+
+6. Then, to test Prometheus UI in your browser. 
+hostname or ip :9090
+
+7. Now exit the promethus and execute follwoing steps.
+
+  
+8. We will now copy the prometheus from the opt to the bin folder.
+cp -r ./usr/local/bin/prometheus
+
+9. Now configure Prometheus as a background service since if you leave it above, you won't be able to perform any other tasks on that node because as you exit Prometheus, it will stop functioning. 
+
+vi /etc/systemd/system/promethus.service
+	
+	[Unit]
+	Description=Prometheus Server
+	After=network.target
+
+	[Service]
+	Type=simple
+	ExecStart=/usr/local/bin/prometheus/prometheus --config.file=/usr/local/bin/prometheus/prometheus.yml
+
+	[Install]
+	WantedBy=multi-user.target
+
+10.Create a node exporter now, then carry on with the step below. 
+11. We will now add the slave node to the Prometheus configuration.
+12. Please continue to work from the same directory where we saved Prometheus, open the "prometheus.yml" file in the "vi" editor, and add the slave node details without altering the text file's alignment.
+
+    Job_name: "prometheus" #master
+	static_config:
+		- target: ["localhost:9090"]
+	
+	JOb_nmae: "Slave" #node exporter 
+	static_config:
+		- targer: [ip of slave:9100]
+# save and exit
+
+13. In the master run the commend  "servie promethues start" to start the promethus.
+14. Verify in the browser's status bar that the target and graph for the master and salve metrics are visible. 
