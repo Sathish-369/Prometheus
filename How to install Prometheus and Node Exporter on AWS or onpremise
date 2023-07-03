@@ -1,7 +1,8 @@
 How to carry out the work
 1. Open Master node and navigate to the /opt folder.
 2. Visit the following website(https://prometheus.io/download/) to get the most recent version of Prometheus, then write the commend as follows
-wget https://github.com/prometheus/prometheus/releases/download/v2.45.0-rc.0/prometheus-2.45.0-rc.0.linux-amd64.tar.gz
+
+	wget https://github.com/prometheus/prometheus/releases/download/v2.45.0-rc.0/prometheus-2.45.0-rc.0.linux-amd64.tar.gz
 
 
 3. But keep in mind that on Prometheus, you must either customize your port or enable all TCP ports 0 to 65535.
