@@ -25,10 +25,22 @@ hostname or ip :9090
 8. We will now copy the prometheus from the opt to the bin folder.
 cp -r ./usr/local/bin/prometheus
 
+	8.1 First, navigate to the directory /usr/local/bin.
+	8.2 In this location, you should find the 'prometheus' folder.
+	8.3 Open the 'prometheus' folder and verify that all the files were successfully copied from the previous path.
+	8.4 Now, follow the steps below to configure Prometheus as a background running service:
+ 
 9. Now configure Prometheus as a background service since if you leave it above, you won't be able to perform any other tasks on that node because as you exit Prometheus, it will stop functioning. 
 
-vi /etc/systemd/system/promethus.service
+	Configure Prometheus as a background service in the following folder: /etc/systemd/system/prometheus.service. Go to the specified path and create a file. 
 	
+	You can use the command provided below to create the necessary file and path to run prometheus as background service.
+
+
+vi /etc/systemd/system/prometheus.service
+
+	Once you're inside the YAML file, paste the command given below to set up Prometheus as a background service and :wq save it.
+
 	[Unit]
 	Description=Prometheus Server
 	After=network.target
