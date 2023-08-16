@@ -67,3 +67,5 @@ vi /etc/systemd/system/prometheus.service
 
 13. In the master run the commend  "servie promethues start" to start the promethus.
 14. Verify in the browser's status bar that the target and graph for the master and salve metrics are visible. 
+15. CMD to check the prometheus status
+	systemctl start prometheus
