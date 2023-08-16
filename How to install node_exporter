@@ -24,7 +24,7 @@ hostname or ip :9100
 
   
 8. Now we copy the node_exporter from the opt to the bin folder.
-cp -r ./usr/local/bin/node_exporter
+cp -r . /usr/local/bin/node_exporter
 
 9. Now configure node_exporter as a background service since if you leave it above, you won't be able to perform any other tasks on that node because as you exit node_exporter, it will stop functioning. 
 
