@@ -28,7 +28,7 @@ cp -r . /usr/local/bin/node_exporter
 
 9. Now configure node_exporter as a background service since if you leave it above, you won't be able to perform any other tasks on that node because as you exit node_exporter, it will stop functioning. 
 
-vi /etc/systemd/system/promethus.service
+vi /etc/systemd/system/node_exporter
 	
 [Unit]	
 Description=Node Exporter
