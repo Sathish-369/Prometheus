@@ -23,7 +23,7 @@ hostname or ip :9090
 
   
 8. We will now copy the prometheus from the opt to the bin folder.
-cp -r ./usr/local/bin/prometheus
+cp -r . /usr/local/bin/prometheus
 
 	8.1 First, navigate to the directory /usr/local/bin.
 	8.2 In this location, you should find the 'prometheus' folder.
