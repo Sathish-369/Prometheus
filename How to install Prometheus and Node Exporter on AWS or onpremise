@@ -54,7 +54,7 @@ vi /etc/systemd/system/prometheus.service
 
 10.Create a node exporter now, then carry on with the step below. 
 11. We will now add the slave node to the Prometheus configuration.
-12. Please continue to work from the same directory where we saved Prometheus, open the "prometheus.yml" file in the "vi" editor, and add the slave node details without altering the text file's alignment.
+12. Please continue to work from the same directory where we saved Prometheus (/usr/local/bin/prometheus), open the "prometheus.yml" file in the "vi" editor, and add the slave node details without altering the text file's alignment.
 
         Job_name: "prometheus" #master
 	static_config:
