@@ -1,0 +1,112 @@
+To install the Blackbox exporter on the VM, follow the steps below:
+
+1. To log in to the server and change the user to root.
+
+2. And create the user call blackbox_exporter : 
+  $ useradd --no-create-home --shell /bin/false blackbox_exporter
+
+3. Download blackbox exporter and extract:
+  $ wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.25.0/blackbox_exporter-0.25.0.linux-amd64.tar.gz
+  $ tar -xvzf blackbox_exporter-0.25.0.linux-amd64.tar.gz
+
+4. Move the binaries in place and change the ownership:
+  $ cp blackbox_exporter-0.25.0.linux-amd64/blackbox_exporter /usr/local/bin/blackbox_exporter
+  $ chown blackbox_exporter:blackbox_exporter /usr/local/bin/blackbox_exporter
+
+5. Remove the downloaded archive:
+  $ rm -rf blackbox_exporter-0.25.0.linux-amd64*
+
+6. Create the blackbox directory and create the config:
+  $ mkdir /etc/blackbox_exporter
+  $ vim /etc/blackbox_exporter/blackbox.yml
+
+types: some types doesnt support or run on your environmnet dude to port or confi issue so selce any one from the trype use it in your environment;
+
+Populate this config:
+
+Type:1
+
+      modules:
+        http_2xx:
+          prober: http
+          timeout: 5s
+          http:
+            valid_status_codes: []
+            method: GET
+
+Type:2
+        modules:
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_status_codes: []
+      method: GET
+
+http_config:
+  listen_address: ":8117"
+
+Note: Type 2 ((The blackbox_exporter version (0.25.0) does not support the http_config field in the configuration file. This field was introduced in a later version of the blackbox_exporter.
+To confirm this, you can check the release notes for version 0.25.0 of the blackbox_exporter: https://github.com/prometheus/blackbox_exporter/releases/tag/v0.25.0
+There is no mention of the http_config field in this version.
+The http_config field will introduced in version 0.26.0 of the blackbox_exporter, according to the release notes: https://github.com/prometheus/blackbox_exporter/releases/tag/v0.26.0))
+
+Please try using type 1 and ensure that the default port 9115 is not being used by other services on your server. If the port 9115 is already in use, don't worry. Follow the steps below and choose type 2 in the systemd file.
+
+[            Note: To check if the port 9115 is used by other services, use the following command:
+            lsof -i :9115
+
+            To find currently used ports, use:
+            netstat -tuln | grep LISTEN
+
+            Avoid the ports listed in the output and pick one that is not listed. Use this available port for the Blackbox exporter.
+]
+
+
+7. Update the permissions of the config so that the user has ownership:
+  $ chown blackbox_exporter:blackbox_exporter /etc/blackbox_exporter/blackbox.yml
+
+8. Create the systemd unit file:
+ $ vim /etc/systemd/system/blackbox_exporter.service
+
+Some types may not support or run in your environment due to port or configuration issues. Please select any one from the types that will work in your environment.
+
+Type: 1
+[Unit]
+Description=Blackbox Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=blackbox_exporter
+Group=blackbox_exporter
+Type=simple
+ExecStart=/usr/local/bin/blackbox_exporter --config.file /etc/blackbox_exporter/blackbox.yml
+
+[Install]
+WantedBy=multi-user.target
+
+
+Type: 2
+
+[Unit]
+Description=Blackbox Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=blackbox_exporter
+Group=blackbox_exporter
+Type=simple
+ExecStart=/usr/local/bin/blackbox_exporter --config.file /etc/blackbox_exporter/blackbox.yml --web.listen-address=:8117
+
+[Install]
+WantedBy=multi-user.target
+
+Note: For type 2, I have added the `--web.listen-address=:8117` option because the default port 9115 used by the Blackbox exporter is occupied by other services. Therefore, I am using a different port in the systemd file.
+
+9. Reload the systemd daemon and restart the service:
+  $ systemctl enable blackbox_exporter
+  $ systemctl daemon-reload
+  $ systemctl start blackbox_exporter
+
