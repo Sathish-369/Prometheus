@@ -1,5 +1,8 @@
 To install the Blackbox exporter on the VM, follow the steps below:
 
+blackbox_exporter Assets: 
+  https://github.com/prometheus/blackbox_exporter/releases
+
 1. To log in to the server and change the user to root.
 
 2. And create the user call blackbox_exporter : 
